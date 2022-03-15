@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-volume
+  labels:
+    app: test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      name: test-volume
+      labels:
+        app: test
+    spec:
+      volumes:
+      - name: test-volume
+        persistentVolumeClaim:
+          claimName: efs-claim
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+          - containerPort: 80
+          resources:
+            requests:
+              cpu: "200m"
+            limits:
+              cpu: "500m"
+          volumeMounts:
+            - mountPath: "/usr/share/nginx/html"
+              name: test-volume

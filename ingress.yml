@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: k8s-training
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    #alb.ingress.kubernetes.io/subnets: subnet-06a5875aa88fad78c, subnet-0821da3f6e0460972
+spec:
+  rules:
+  - host: diego.training.trambo.cloud
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: test-volume
+            port:
+              number: 80
